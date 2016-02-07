@@ -89,7 +89,7 @@ angular.module('deepBlue.controllers', ['ngOpenFB'])
 
     ///ZZZZZ Here calls the FB login function.
   $scope.loginFB = function () {
-    ngFB.login({scope: 'email,read_stream,publish_actions'}).then(
+    ngFB.login({scope: 'email, publish_actions'}).then(
         function (response) {
           if (response.status === 'connected') {
             console.log('Facebook login succeeded');

@@ -15,7 +15,7 @@ angular.module('deepBlue', ['ionic', 'deepBlue.controllers', 'deepBlue.services'
 
 .run(function($ionicPlatform, $rootScope, $timeout, $state, ngFB) {
 
-  ngFB.init({appId: '123456789'}); ///ZZZZ Insert correct FB APP_ID from Facebook Developers.
+  ngFB.init({appId: '190799707944359'}); ///ZZZZ Insert correct FB APP_ID from Facebook Developers.
 
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
