@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+    
+    <!-- compiled css output -->
+    <link href="css/ionic.app.css" rel="stylesheet">
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+                                          <!--ZZZZ here is Facebook angularJs plugin link -->
+    <script src = "js/openfb.js"></script>
+    <script src = "js/ngopenfb.js"></script>
+                                          <!--ZZZZ -->
+
+    <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/services.js"></script>    
+  </head>
+
+  <!--
+    #IMPLEMENTATION-DETAIL:
+    the class "deepblue-theme" on body kicks in our theme for all views
+    see scss/themed.scss for implementation.
+  -->
+  <body ng-app="deepBlue" class="deepblue-theme platform-android platform-cordova platform-webview">
+    <ion-nav-view></ion-nav-view>
+  </body>
+</html>
