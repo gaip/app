@@ -33,39 +33,72 @@ angular.module('deepBlue.controllers', ['ngOpenFB'])
 })
 
 // This controller is bound to the "app.account" view
-.controller('AccountCtrl', function($scope, $rootScope) {
+.controller('AccountCtrl', function($scope, $rootScope, $timeout, $ionicLoading, ngFB) {
+
+  //fetch user info from Facebook and setting the account fields of this app user.
+    console.log("inside AccountCtrl");
+    $ionicLoading.show();
+
+    ngFB.api(
+        {
+            path: '/me',
+            params: {fields: 'id,name'}
+        }).then(
+        function(user){
+            $rootScope.user =user;
+            console.log(JSON.stringify(user));
+
+
+        },
+        function (error) {
+            alert('Facebook account error :'+error.error_description );
+
+        });
+
   
   //readonly property is used to control editability of account form
   $scope.readonly = true;
 
   // #SIMPLIFIED-IMPLEMENTATION:
   // We act on a copy of the root user
-  $scope.accountUser = angular.copy($rootScope.user);
-  var userCopy = {};
 
-  $scope.startEdit = function(){
-    $scope.readonly = false;
-    userCopy = angular.copy($scope.user);
-  };
+    $timeout(function(){
 
-  $scope.cancelEdit = function(){
-    $scope.readonly = true;
-    $scope.user = userCopy;
-  };
-  
-  // #SIMPLIFIED-IMPLEMENTATION:
-  // this function should call a service to update and save 
-  // the data of current user.
-  // In this case we'll just set form to readonly and copy data back to $rootScope.
-  $scope.saveEdit = function(){
-    $scope.readonly = true;
-    $rootScope.user = $scope.accountUser;
-  };
+        $ionicLoading.hide();
+        console.log(JSON.stringify($rootScope.user));
+
+        $scope.accountUser = angular.copy($rootScope.user);
+
+        console.log($scope.accountUser.text);
+
+        var userCopy = {};
+
+        $scope.startEdit = function(){
+            $scope.readonly = false;
+            userCopy = angular.copy($scope.user);
+        };
+
+        $scope.cancelEdit = function(){
+            $scope.readonly = true;
+            $scope.user = userCopy;
+        };
+
+        // #SIMPLIFIED-IMPLEMENTATION:
+        // this function should call a service to update and save
+        // the data of current user.
+        // In this case we'll just set form to readonly and copy data back to $rootScope.
+        $scope.saveEdit = function(){
+            $scope.readonly = true;
+            $rootScope.user = $scope.accountUser;
+        };
+
+    },3000);
+
 
 })
 
 
-.controller('LoginCtrl', function ($scope, $state, $rootScope, $timeout, ngFB) {
+.controller('LoginCtrl', function ($scope, $state, $rootScope, $timeout, $location, ngFB) {
 
   // #SIMPLIFIED-IMPLEMENTATION:
   // This login function is just an example.
@@ -73,32 +106,36 @@ angular.module('deepBlue.controllers', ['ngOpenFB'])
   // web service
 
   $scope.login = function(){
-    //in this case we just set the user in $rootScope
-    $rootScope.user = {
-      email : "alexstreeten@hotmail.com",
-      name : "Alex Streeten",
-      address : "Home TOWN",
-      city : "Queenland",
-      zip  : "00007",
-      avatar : 'sampledata/images/avatar.jpg'
-    };
-    //finally, we route our app to the 'app.shop' view
-    $state.go('app.shop');
+    //in this case we just set the user in $rootScope, leave this section for backend authentication
+
+    //finally, we route our app to the 'app.feed' view
+      $state.go('app.account');
+
   };
 
 
     ///ZZZZZ Here calls the FB login function.
   $scope.loginFB = function () {
-    ngFB.login({scope: 'email, publish_actions'}).then(
+    ngFB.login({scope: 'public_profile, email, publish_actions'}).then(
         function (response) {
           if (response.status === 'connected') {
-            console.log('Facebook login succeeded');
-            $scope.closeLogin();
+
+              console.log('Facebook login succeeded');
+
+              $state.go('app.account');
+
+
           } else {
             alert('Facebook login failed');
+
           }
         });
   };
+
+
+
+
+
 
 })
 

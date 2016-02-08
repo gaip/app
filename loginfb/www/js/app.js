@@ -112,7 +112,7 @@ angular.module('deepBlue', ['ionic', 'deepBlue.controllers', 'deepBlue.services'
 
   .state('app.account', {
       url: '/account',
-      data : { auth : true },
+
       views: {
         'menuContent': {
           templateUrl: 'templates/account.html',
